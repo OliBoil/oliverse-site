@@ -1,0 +1,23 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  status: string;
+  icon: string;
+  tags: string[];
+  lang?: 'es' | 'en';
+}
+const { slug, title, description, status, icon, tags, lang = 'es' } = Astro.props;
+const prefix = lang === 'en' ? '/en' : '';
+---
+<article class="project-card">
+  <div class="card-top">
+    <span class="project-icon" aria-hidden="true">{icon}</span>
+    <span class="status"><i></i>{status}</span>
+  </div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <div class="tags">{tags.map((tag) => <span>{tag}</span>)}</div>
+  <a class="card-link" href={`${prefix}/projects/${slug}`}>{lang === 'es' ? 'Ver proyecto' : 'Explore project'} <span>↗</span></a>
+</article>

@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NoteCard from '../../components/NoteCard.astro';
+const notes = (await getCollection('notesEs')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout title="Notas — Oliverse" description="Notas del taller y diario de aprendizaje práctico de Oliver." lang="es">
+  <section class="page-hero shell"><p class="eyebrow">Diario de aprendizaje</p><h1>Notas del <em>mundo real.</em></h1><p>Notas de campo breves y sinceras sobre soporte IT, sistemas, hardware y las lecciones que dejan.</p></section>
+  <section class="section shell"><div class="note-grid">{notes.map((note) => <NoteCard slug={note.id} {...note.data} lang="es" />)}</div></section>
+</BaseLayout>

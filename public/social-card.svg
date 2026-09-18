@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="glow" cx="78%" cy="18%" r="75%">
+      <stop offset="0" stop-color="#ff8a2a" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#090a0e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#090a0e"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g transform="translate(82 78)">
+    <rect width="54" height="54" rx="15" fill="#ff8a2a"/>
+    <text x="27" y="37" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#160a02">O</text>
+    <text x="72" y="38" font-family="Arial, sans-serif" font-size="31" font-weight="700" fill="#f7f7f8">oliverse</text>
+  </g>
+  <text x="82" y="273" font-family="Arial, sans-serif" font-size="77" font-weight="700" letter-spacing="-3" fill="#f7f7f8">Aprendiendo cómo</text>
+  <text x="82" y="358" font-family="Arial, sans-serif" font-size="77" font-weight="700" letter-spacing="-3" fill="#f7f7f8">funciona la tecnolog<tspan fill="#ff8a2a">IA.</tspan></text>
+  <text x="84" y="434" font-family="Arial, sans-serif" font-size="25" fill="#9ca1ad">Inteligencia artificial · sistemas · aprendizaje práctico</text>
+  <line x1="82" y1="516" x2="1118" y2="516" stroke="#292d38"/>
+  <text x="84" y="561" font-family="monospace" font-size="20" fill="#ff8a2a">oliverse.qd.je</text>
+</svg>

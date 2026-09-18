@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+const projects = (await getCollection('projectsEs')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="Proyectos — Oliverse" description="Proyectos prácticos de informática, sistemas y automatización de Oliver." lang="es">
+  <section class="page-hero shell"><p class="eyebrow">Trabajo seleccionado</p><h1>Proyectos creados para <em>aprender.</em></h1><p>Experimentos, herramientas prácticas y trabajo con sistemas, documentados desde la primera idea hasta la lección final.</p></section>
+  <section class="section shell"><div class="project-grid">{projects.map((project) => <ProjectCard slug={project.id} {...project.data} lang="es" />)}</div></section>
+</BaseLayout>

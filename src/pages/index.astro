@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import NoteCard from '../components/NoteCard.astro';
+
+const projects = (await getCollection('projectsEs')).sort((a, b) => a.data.order - b.data.order);
+const notes = (await getCollection('notesEs')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout title="Oliverse — Informática, sistemas y automatización" description="El espacio de Oliver para proyectos de informática, notas del taller y aprendizaje práctico." lang="es">
+  <section class="hero shell">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="live-dot"></span> Aprendiendo en público desde Barcelona</p>
+      <h1>Aprendiendo cómo<br />funciona la <span class="wordmark">tecnolog<em>IA.</em></span></h1>
+      <p class="hero-intro">Soy Oliver, estudiante de SMIX apasionado por la inteligencia artificial. Exploro cómo convertir su potencial en acciones reales, proyectos útiles y aprendizajes que merece la pena compartir.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="/projects">Ver mis proyectos <span>↗</span></a>
+        <a class="button secondary" href="/notes">Leer las notas</a>
+      </div>
+      <div class="skill-row" aria-label="Main areas">
+        <span>IA y automatización</span><span>Soporte IT</span><span>Sistemas</span><span>Redes</span>
+      </div>
+    </div>
+    <div class="terminal-card" aria-label="Terminal illustration">
+      <div class="terminal-bar"><span></span><span></span><span></span><b>oliver@oliverse</b></div>
+      <div class="terminal-body">
+        <p><i>➜</i> <b>whoami</b></p>
+        <p class="terminal-output">estudiante de SMIX · explorador IT · creador</p>
+        <p><i>➜</i> <b>cat enfoque-actual.txt</b></p>
+        <p class="terminal-output">soporte y sistemas<br />automatización y herramientas<br />aprender haciendo</p>
+        <p><i>➜</i> <b>estado</b></p>
+        <p class="terminal-output success">● listo para el siguiente reto</p>
+        <p class="cursor-line"><i>➜</i> <span class="cursor"></span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats shell" aria-label="Highlights">
+    <div><strong>Curiosidad</strong><span>preguntar cómo funciona</span></div>
+    <div><strong>Acción</strong><span>convertir ideas en pruebas</span></div>
+    <div><strong>Claridad</strong><span>compartir lo aprendido</span></div>
+  </section>
+
+  <section class="ai-feature shell">
+    <div class="ai-orbit" aria-hidden="true"><span>AI</span><i></i><i></i><i></i></div>
+    <div><p class="eyebrow">Proyecto principal</p><h2>Coco: IA personal, útil y cercana.</h2><p>Después de descubrir que una IA podía ir más allá de responder preguntas y actuar con herramientas reales, quise construir mi propio asistente. Coco conecta automatización, voz, organización, investigación y aprendizaje en un proyecto que evoluciona conmigo.</p><a class="text-link" href="/projects/coco">Conocer el proyecto →</a></div>
+  </section>
+
+  <section class="section shell">
+    <div class="heading-row">
+      <SectionHeading eyebrow="Trabajo seleccionado" title="Proyectos con un propósito." copy="Pequeños proyectos prácticos que convierten nuevos conocimientos en algo útil." />
+      <a class="text-link desktop-link" href="/projects">Todos los proyectos →</a>
+    </div>
+    <div class="project-grid mobile-slider">
+      {projects.slice(0, 2).map((project) => <ProjectCard slug={project.id} {...project.data} lang="es" />)}
+    </div>
+  </section>
+
+  <section class="lab-teaser shell"><div><p class="eyebrow">Oliverse Lab</p><h2>Ideas pequeñas. Aprendizajes reales.</h2><p>Un espacio para prototipos, experimentos con IA y miniproyectos que merecen probarse antes de convertirse en algo mayor.</p></div><a class="button secondary" href="/lab">Entrar al laboratorio <span>↗</span></a></section>
+
+  <section class="section notes-section">
+    <div class="shell">
+      <div class="heading-row">
+        <SectionHeading eyebrow="Diario de aprendizaje" title="Recién salido del taller." copy="Lo que construyo, lo que falla y lo que aprendo por el camino." />
+        <a class="text-link desktop-link" href="/notes">Todas las notas →</a>
+      </div>
+      <div class="note-grid mobile-slider">
+        {notes.slice(0, 2).map((note) => <NoteCard slug={note.id} {...note.data} lang="es" />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta shell">
+    <div><p class="eyebrow">Siempre con curiosidad</p><h2>Construyamos lo siguiente.</h2></div>
+    <a class="button primary" href="/contact">Contactar <span>↗</span></a>
+  </section>
+</BaseLayout>

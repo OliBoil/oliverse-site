@@ -1,0 +1,7 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="Projects — Oliverse" description="Practical IT, systems and automation projects by Oliver." lang="en"><section class="page-hero shell"><p class="eyebrow">Selected work</p><h1>Projects built to <em>learn.</em></h1><p>Experiments, practical tools and systems work—documented from first idea to final lesson.</p></section><section class="section shell"><div class="project-grid">{projects.map((project) => <ProjectCard slug={project.id} {...project.data} lang="en" />)}</div></section></BaseLayout>

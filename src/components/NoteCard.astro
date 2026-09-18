@@ -1,0 +1,13 @@
+---
+interface Props { slug: string; title: string; description: string; date: Date; tags: string[]; lang?: 'es' | 'en' }
+const { slug, title, description, date, tags, lang = 'es' } = Astro.props;
+const prefix = lang === 'en' ? '/en' : '';
+const displayDate = date.toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+---
+<article class="note-card">
+  <p class="note-date">{displayDate}</p>
+  <h3><a href={`${prefix}/notes/${slug}`}>{title}</a></h3>
+  <p>{description}</p>
+  <div class="tags">{tags.slice(0, 3).map((tag) => <span>{tag}</span>)}</div>
+  <a class="text-link" href={`${prefix}/notes/${slug}`}>{lang === 'es' ? 'Leer nota' : 'Read note'} →</a>
+</article>

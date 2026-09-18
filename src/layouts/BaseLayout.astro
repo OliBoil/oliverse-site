@@ -1,0 +1,151 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: 'es' | 'en';
+}
+
+const {
+  title = 'Oliverse — IT, systems & automation',
+  description = 'Oliver’s space for IT projects, workshop notes and practical learning.',
+  lang = 'es',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const pathWithoutLocale = Astro.url.pathname.replace(/^\/en(?=\/|$)/, '') || '/';
+const equivalentPath = pathWithoutLocale.replace(/\/$/, '') === '/404' ? '/' : pathWithoutLocale;
+const esUrl = new URL(equivalentPath, Astro.site);
+const enUrl = new URL(`/en${equivalentPath === '/' ? '/' : equivalentPath}`, Astro.site);
+const prefix = lang === 'en' ? '/en' : '';
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (section: string) => {
+  const target = `${prefix}/${section}`.replace(/\/$/, '') || '/';
+  return currentPath === target || currentPath.startsWith(`${target}/`);
+};
+const nav = lang === 'es'
+  ? { projects: 'Proyectos', lab: 'Laboratorio', notes: 'Notas', about: 'Sobre mí', contact: 'Contacto', menu: 'Abrir menú', closeMenu: 'Cerrar menú', navigation: 'Navegación principal', footer: 'Aprendiendo, creando y documentando desde Barcelona.' }
+  : { projects: 'Projects', lab: 'Lab', notes: 'Notes', about: 'About', contact: 'Contact', menu: 'Open menu', closeMenu: 'Close menu', navigation: 'Main navigation', footer: 'Learning, building and documenting from Barcelona.' };
+---
+
+<!doctype html>
+<html lang={lang} data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#080b12" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Oliverse" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/social-card.png', Astro.site)} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_GB'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL('/social-card.png', Astro.site)} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={esUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={esUrl} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+    <script is:inline>
+      const savedTheme = localStorage.getItem('theme');
+      const preferredTheme = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.dataset.theme = savedTheme || preferredTheme;
+    </script>
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <header class="site-header">
+      <a class="brand" href={`${prefix}/`} aria-label="Oliverse home">
+        <span class="brand-mark">O</span>
+        <span>oliverse</span>
+      </a>
+      <nav class="desktop-nav" aria-label={nav.navigation}>
+        <a class:list={[{ active: isActive('projects') }]} aria-current={isActive('projects') ? 'page' : undefined} href={`${prefix}/projects`}>{nav.projects}</a>
+        <a class:list={[{ active: isActive('lab') }]} aria-current={isActive('lab') ? 'page' : undefined} href={`${prefix}/lab`}>{nav.lab}</a>
+        <a class:list={[{ active: isActive('notes') }]} aria-current={isActive('notes') ? 'page' : undefined} href={`${prefix}/notes`}>{nav.notes}</a>
+        <a class:list={[{ active: isActive('about') }]} aria-current={isActive('about') ? 'page' : undefined} href={`${prefix}/about`}>{nav.about}</a>
+      </nav>
+      <div class="header-actions">
+        <div class="language-switch" aria-label={lang === 'es' ? 'Selector de idioma' : 'Language selector'}>
+          <a class:list={[{ active: lang === 'es' }]} href={esUrl.pathname} lang="es" aria-label="Español">
+            <svg class="language-flag" viewBox="0 0 24 24" aria-hidden="true">
+              <defs><clipPath id="flag-es-circle"><circle cx="12" cy="12" r="10" /></clipPath></defs>
+              <g clip-path="url(#flag-es-circle)">
+                <path fill="#aa151b" d="M2 2h20v20H2z" />
+                <path fill="#f1bf00" d="M2 7h20v10H2z" />
+              </g>
+              <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-opacity=".18" />
+            </svg>
+            <b>ES</b>
+          </a>
+          <a class:list={[{ active: lang === 'en' }]} href={enUrl.pathname} lang="en" aria-label="English">
+            <svg class="language-flag" viewBox="0 0 24 24" aria-hidden="true">
+              <defs><clipPath id="flag-gb-circle"><circle cx="12" cy="12" r="10" /></clipPath></defs>
+              <g clip-path="url(#flag-gb-circle)">
+                <path fill="#012169" d="M2 2h20v20H2z" />
+                <path stroke="#fff" stroke-width="4" d="m2 2 20 20M22 2 2 22" />
+                <path stroke="#c8102e" stroke-width="2" d="m2 2 20 20M22 2 2 22" />
+                <path stroke="#fff" stroke-width="7" d="M12 2v20M2 12h20" />
+                <path stroke="#c8102e" stroke-width="4" d="M12 2v20M2 12h20" />
+              </g>
+              <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-opacity=".18" />
+            </svg>
+            <b>EN</b>
+          </a>
+        </div>
+        <button class="theme-toggle" type="button" aria-label={lang === 'es' ? 'Cambiar tema de color' : 'Toggle colour theme'}><span class="sun">☀</span><span class="moon">☾</span></button>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-site-menu" aria-label={nav.menu} data-open-label={nav.menu} data-close-label={nav.closeMenu}>
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <nav class="mobile-nav" id="mobile-site-menu" aria-label={nav.navigation} hidden>
+        <a class:list={[{ active: isActive('projects') }]} aria-current={isActive('projects') ? 'page' : undefined} href={`${prefix}/projects`}>{nav.projects}</a>
+        <a class:list={[{ active: isActive('lab') }]} aria-current={isActive('lab') ? 'page' : undefined} href={`${prefix}/lab`}>{nav.lab}</a>
+        <a class:list={[{ active: isActive('notes') }]} aria-current={isActive('notes') ? 'page' : undefined} href={`${prefix}/notes`}>{nav.notes}</a>
+        <a class:list={[{ active: isActive('about') }]} aria-current={isActive('about') ? 'page' : undefined} href={`${prefix}/about`}>{nav.about}</a>
+        <a class:list={[{ active: isActive('contact') }]} aria-current={isActive('contact') ? 'page' : undefined} href={`${prefix}/contact`}>{nav.contact}</a>
+      </nav>
+    </header>
+    <main><slot /></main>
+    <footer>
+      <div>
+        <a class="brand compact" href={`${prefix}/`}><span class="brand-mark">O</span><span>oliverse</span></a>
+        <p>{nav.footer}</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/OliBoil" rel="me">GitHub ↗</a>
+        <a href={`${prefix}/contact`}>{nav.contact}</a>
+      </div>
+      <p class="copyright">© {new Date().getFullYear()} Oliver</p>
+    </footer>
+    <script is:inline>
+      document.querySelector('.theme-toggle')?.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem('theme', next);
+      });
+
+      const menuToggle = document.querySelector('.menu-toggle');
+      const mobileMenu = document.querySelector('#mobile-site-menu');
+      const setMenuOpen = (open) => {
+        if (!(menuToggle instanceof HTMLButtonElement) || !(mobileMenu instanceof HTMLElement)) return;
+        menuToggle.setAttribute('aria-expanded', String(open));
+        menuToggle.setAttribute('aria-label', open ? menuToggle.dataset.closeLabel : menuToggle.dataset.openLabel);
+        mobileMenu.hidden = !open;
+        document.body.classList.toggle('menu-open', open);
+      };
+      menuToggle?.addEventListener('click', () => setMenuOpen(menuToggle.getAttribute('aria-expanded') !== 'true'));
+      mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenuOpen(false)));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') setMenuOpen(false);
+      });
+    </script>
+  </body>
+</html>
